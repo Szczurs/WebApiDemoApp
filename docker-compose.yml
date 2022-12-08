@@ -1,8 +1,28 @@
 version: '3.4'
+networks:
+    demoApiApp:
 
 services:
+  demoappdb:
+    container_name: app-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+    - 8002:1443
+    environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=password@12345#
   webapidemo:
     image: ${DOCKER_REGISTRY-}webapidemo
     build:
       context: .
       dockerfile: WebApiDemo/Dockerfile
+    ports:
+    - 8001:80
+    depends_on:
+    - demoappdb
+    environment:
+    - DB_HOST=demoappdb
+    - DB_NAME=ApiDB
+    - DB_PASSWORD=password@12345#
+    networks:
+    - demoApiApp
