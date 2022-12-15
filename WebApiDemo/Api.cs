@@ -15,7 +15,6 @@
 
             app.MapDelete("/Users", DeleteUser);
 
-
         }
 
         private static async Task<IResult> GetUsers(IUserData data)
@@ -90,6 +89,5 @@
                 return Results.Problem(ex.Message);
             }
         }
-
     }
 }
